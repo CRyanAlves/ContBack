@@ -6,17 +6,15 @@ import authRouter from '@modules/User/routes/auth.router';
 import userRouter from '@modules/User/routes/user.router';
 
 const app = express();
+
 app.use(cors());
+
 app.use(express.json());
 
 app.use(morgan('combined'));
 
 app.use('/users', validator);
 app.use('/users', userRouter);
-app.use('/alunos', validator);
 app.use('/auth', authRouter);
-app.get('/alunos', (req: Request, res: Response) => {
-  res.json([]);
-});
 
 export default app;
