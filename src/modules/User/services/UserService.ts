@@ -2,11 +2,17 @@ import { v4 } from "uuid";
 import sha256 from 'crypto-js/sha256';
 import hmacSHA512 from 'crypto-js/hmac-sha512';
 import Base64 from 'crypto-js/enc-base64';
-import * as jwt from 'jsonwebtoken';
+import * as jwt from 'jsonwebtoken'
+
+
+
 import userRepository from "../models/user.repository";
-import User from "../models/user";
-import { SECRET } from "@shared/constants";
+
+
 import logger from "@config/logger";
+import { SECRET } from "@shared/constants";
+import User from "../models/User";
+
 
 class UserService {
 
@@ -40,8 +46,14 @@ class UserService {
     }
 
     async signUpUser(email: string, name: string, password: string, telUser: number,  telEmgUser: number){
+        console.log(email)
         const newUser = this.getUserFromData(email, name, password, telUser, telEmgUser);
         await userRepository.save(newUser);
+    }
+
+    async listUser() {
+        const getUser = await userRepository.find();
+        return getUser
     }
 
     //1b9f4cee-d5bb-4b09-851f-171595544fb6

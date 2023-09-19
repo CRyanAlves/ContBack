@@ -2,7 +2,7 @@ import "reflect-metadata";
 import { Entity, CreateDateColumn, UpdateDateColumn, Column, PrimaryColumn } from "typeorm";
 
 @Entity({name: "usuario"})
-export default class user {
+export default class User {
     @PrimaryColumn({name: "id_user"})
     id: string;
 
@@ -15,10 +15,10 @@ export default class user {
     @Column({name: "senha_user"})
     password: string;
 
-    @Column({name: "tel_user"})
+    @Column({name: "tel_user", type: "varchar", length: 11})
     telUser: number;
 
-    @Column({name: "tel_emg_user"})
+    @Column({name: "tel_emg_user", type: "varchar", length: 11})
     telEmgUser: number;
 
     @CreateDateColumn({ type: "timestamp", default: () => "CURRENT_TIMESTAMP(6)" })

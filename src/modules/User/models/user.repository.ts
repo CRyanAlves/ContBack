@@ -1,6 +1,6 @@
-import { AppDataSource } from "@shared/data-source";
-import user from "./user";
+import { AppDataSource } from '@shared/data-source';
+import User from './User';
 
-const userRepository = AppDataSource.getRepository(user)
+const userRepository = AppDataSource.getRepository(User);
 
-export default userRepository
+export default userRepository;

@@ -1,5 +1,3 @@
-const SECRET = "ContiBack";
+const SECRET = 'ContiBack';
 
-export {
-    SECRET
-}
+export { SECRET };
