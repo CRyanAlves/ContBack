@@ -1,4 +1,4 @@
-import User from '@modules/User/models/User';
+import User from '@modules/User/models/user';
 import 'dotenv/config';
 import { DataSource } from 'typeorm';
 

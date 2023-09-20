@@ -28,6 +28,19 @@ class UserController {
     }
   }
 
+  async getByUser(req: Request, res: Response) {
+    try {
+      const id = (req as any).authUser;
+      if (!id) {
+        return res.status(404).send({ error: 'User not found' });
+      }
+      const saveUser = await new UserService().getByUser(id);
+      return res.send({ res: saveUser });
+    } catch (err) {
+      res.status(401).send('Get User Failed');
+    }
+  }
+
   async listUser(req: Request, res: Response) {
     try {
       const id = (req as any).authUser;

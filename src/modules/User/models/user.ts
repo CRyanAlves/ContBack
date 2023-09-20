@@ -1,31 +1,44 @@
-import "reflect-metadata";
-import { Entity, CreateDateColumn, UpdateDateColumn, Column, PrimaryColumn } from "typeorm";
+import 'reflect-metadata';
+import {
+  Entity,
+  CreateDateColumn,
+  UpdateDateColumn,
+  Column,
+  PrimaryColumn,
+} from 'typeorm';
 
-@Entity({name: "usuario"})
+@Entity({ name: 'usuario' })
 export default class User {
-    @PrimaryColumn({name: "id_user"})
-    id: string;
+  @PrimaryColumn({ name: 'id_user' })
+  id: string;
 
-    @Column({name: "email_user"})
-    email: string;
+  @Column({ name: 'email_user' })
+  email: string;
 
-    @Column({name: "nome_user"})
-    name: string;
+  @Column({ name: 'nome_user' })
+  name: string;
 
-    @Column({name: "senha_user"})
-    password: string;
+  @Column({ name: 'senha_user' })
+  password: string;
 
-    @Column({name: "tel_user", type: "varchar", length: 11})
-    telUser: number;
+  @Column({ name: 'tel_user', type: 'varchar', length: 11 })
+  telUser: number;
 
-    @Column({name: "tel_emg_user", type: "varchar", length: 11})
-    telEmgUser: number;
+  @Column({ name: 'tel_emg_user', type: 'varchar', length: 11 })
+  telEmgUser: number;
 
-    @CreateDateColumn({ type: "timestamp", default: () => "CURRENT_TIMESTAMP(6)" })
-    public created_at: Date;
+  @CreateDateColumn({
+    type: 'timestamp',
+    default: () => 'CURRENT_TIMESTAMP(6)',
+  })
+  public created_at: Date;
 
-    @UpdateDateColumn({ type: "timestamp", default: () => "CURRENT_TIMESTAMP(6)", onUpdate: "CURRENT_TIMESTAMP(6)" })
-    public updated_at: Date;
-
+  @UpdateDateColumn({
+    type: 'timestamp',
+    default: () => 'CURRENT_TIMESTAMP(6)',
+    onUpdate: 'CURRENT_TIMESTAMP(6)',
+  })
+  public updated_at: Date;
 }
+
 // CSV

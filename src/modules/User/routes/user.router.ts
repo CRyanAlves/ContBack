@@ -1,8 +1,10 @@
-import { Router } from 'express';
-import UserController from '../controller/userController';
+import { Router } from "express";
+import UserController from "../controller/userController";
 
-const userRouter = Router();
+const userRouter = Router()
 
-userRouter.get('/pegarPorId', new UserController().listUser);
+userRouter.get('/listUser', new UserController().listUser)
 
-export default userRouter;
+userRouter.get('/pegaPorId', new UserController().getByUser)
+
+export default userRouter
