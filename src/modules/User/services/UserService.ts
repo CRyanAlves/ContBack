@@ -9,6 +9,7 @@ import userRepository from '../models/user.repository';
 import User from '../models/user';
 import logger from '@config/logger';
 import { SECRET } from '@shared/constants';
+import { EndOfLineState } from 'typescript';
 
 class UserService {
   getUserFromData(
@@ -71,8 +72,7 @@ class UserService {
     await userRepository.save(newUser);
   }
 
-  async getByUser(id_user: string = '9c7dbdcd-bc4b-4c36-af93-fca4e4b0ea32') {
-    console.log(typeof id_user);
+  async getByUser(id_user: string) {
     const getUser = await userRepository.findOne({ where: id_user });
     return getUser;
   }
@@ -82,7 +82,21 @@ class UserService {
     return getUser;
   }
 
-  //1b9f4cee-d5bb-4b09-851f-171595544fb6
+  async deleteUser(id_user: string) {
+    await userRepository.delete(id_user);
+  }
+
+  async updateUser(id_user: string, user: string) {
+    const getUser = await userRepository.findOneBy({ id: id_user });
+    const updateUser = new User();
+    if (getUser) {
+      updateUser.name = !user ? getUser?.name : user;
+      const savedUpdate = await userRepository.update(id_user, updateUser);
+      return savedUpdate;
+    } else {
+      return 'User Not Found';
+    }
+  }
 }
 
 export default UserService;
