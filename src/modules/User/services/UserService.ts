@@ -9,7 +9,6 @@ import userRepository from '../models/user.repository';
 import User from '../models/user';
 import logger from '@config/logger';
 import { SECRET } from '@shared/constants';
-import { EndOfLineState } from 'typescript';
 
 class UserService {
   getUserFromData(
@@ -61,7 +60,6 @@ class UserService {
     telUser: number,
     telEmgUser: number,
   ) {
-    console.log(email);
     const newUser = this.getUserFromData(
       email,
       name,
@@ -73,7 +71,6 @@ class UserService {
   }
 
   async getByUser(id_user: string) {
-    console.log(id_user);
     const getUser = await userRepository.findOneBy({ id: id_user });
     return getUser;
   }
