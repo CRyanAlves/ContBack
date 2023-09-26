@@ -35,7 +35,7 @@ class UserController {
       if (!id) {
         return res.status(404).send({ error: 'User not found' });
       }
-      const saveUser = await new UserService().getByUser(id);
+      const saveUser = await new UserService().getByUser(id.id);
       return res.send({ res: saveUser });
     } catch (err) {
       res.status(401).send('Get User Failed');
@@ -62,22 +62,22 @@ class UserController {
         return res.status(404).send({ error: 'User not found' });
       }
       console.log(id);
-      await new UserService().deleteUser( id );
+      await new UserService().deleteUser(id);
       return res.send({ res: 'Usuário Deletado' });
     } catch (err) {
       res.status(401).send('Get User Failed');
     }
   }
 
-  async updateUser(req: Request, res: Response){
+  async updateUser(req: Request, res: Response) {
     try {
-      const {nome} = req.body;
-      const {id} = (req as any).authUser;
+      const { nome } = req.body;
+      const { id } = (req as any).authUser;
       if (!id) {
         return res.status(404).send({ error: 'User not found' });
       }
       console.log(id);
-      const response = await new UserService().updateUser( id, nome );
+      const response = await new UserService().updateUser(id, nome);
     } catch (err) {
       res.status(401).send('Get User Failed');
     }

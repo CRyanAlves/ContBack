@@ -73,7 +73,8 @@ class UserService {
   }
 
   async getByUser(id_user: string) {
-    const getUser = await userRepository.findOne({ where: id_user });
+    console.log(id_user);
+    const getUser = await userRepository.findOneBy({ id: id_user });
     return getUser;
   }
 
