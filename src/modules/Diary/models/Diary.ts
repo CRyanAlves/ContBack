@@ -1,9 +1,14 @@
-import { Column, CreateDateColumn, Entity, PrimaryColumn, UpdateDateColumn } from 'typeorm';
+import User from '@modules/User/models/user';
+import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryColumn, UpdateDateColumn } from 'typeorm';
 
 @Entity('meu_diario')
 export default class Diary {
   @PrimaryColumn({ name: 'id_meu_diário' })
   id: string;
+
+  @ManyToOne(() => User)
+  @JoinColumn({name: 'id_user'})
+  id_user: string;
 
   @Column({ name: 'titulo', type: 'varchar', length: '50' })
   title: string;
@@ -36,5 +41,5 @@ export default class Diary {
   })
   public updated_at: Date;
 
-  
+
 }

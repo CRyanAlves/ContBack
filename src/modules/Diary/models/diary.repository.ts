@@ -1,6 +1,6 @@
 import { AppDataSource } from '@shared/data-source';
 import Diary from './Diary';
 
-const userRepository = AppDataSource.getRepository(Diary);
+const diaryRepository = AppDataSource.getRepository(Diary);
 
-export default userRepository;
+export default diaryRepository;

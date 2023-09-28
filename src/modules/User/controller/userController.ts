@@ -1,6 +1,5 @@
 import { Request, Response } from 'express';
 import UserService from '../services/UserService';
-import User from '../models/user';
 
 class UserController {
   async loginUser(req: Request, res: Response) {
@@ -25,7 +24,7 @@ class UserController {
       );
       res.json('Bem criado!');
     } catch (error) {
-      return res.status(400).send(`erro no controller signupuser ${error}`);
+      return res.status(400).send(`erro no controller sign up user ${error}`);
     }
   }
 
@@ -76,8 +75,8 @@ class UserController {
       if (!id) {
         return res.status(404).send({ error: 'User not found' });
       }
-      console.log(id);
       const response = await new UserService().updateUser(id, nome);
+      return res.send({ res: response });
     } catch (err) {
       res.status(401).send('Get User Failed');
     }
