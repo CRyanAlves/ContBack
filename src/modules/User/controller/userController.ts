@@ -70,12 +70,13 @@ class UserController {
 
   async updateUser(req: Request, res: Response) {
     try {
-      const { nome } = req.body;
+      const { nome, tel_user, tel_emg_user, senha_user } = req.body; // aumente aqui e no "new" se precisar
       const { id } = (req as any).authUser;
+      console.log()
       if (!id) {
         return res.status(404).send({ error: 'User not found' });
       }
-      const response = await new UserService().updateUser(id, nome);
+      const response = await new UserService().updateUser(id, nome, tel_user, tel_emg_user, senha_user);
       return res.send({ res: response });
     } catch (err) {
       res.status(401).send('Get User Failed');

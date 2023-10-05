@@ -84,11 +84,23 @@ class UserService {
     await userRepository.delete(id_user);
   }
 
-  async updateUser(id_user: string, user: string) {
+  async updateUser(id_user: string, user: string, tel_user: number, tel_emg_user: number, senha_user: string) {
     const getUser = await userRepository.findOneBy({ id: id_user });
     const updateUser = new User();
     if (getUser) {
       updateUser.name = !user ? getUser?.name : user;
+      updateUser.telUser = !tel_user ? getUser?.telUser : tel_user;
+      updateUser.telEmgUser = !tel_emg_user ? getUser?.telEmgUser : tel_emg_user ;
+      console.log(tel_emg_user);
+
+    if(senha_user){ 
+      const hashDigest = sha256(senha_user);
+      logger.debug('HashAntes: ', hashDigest);
+      const privateKey = 'FIEC2023';
+      const passwordHashed = Base64.stringify(hmacSHA512(hashDigest, privateKey));
+      updateUser.password = !user ? getUser?.password : passwordHashed;
+      }
+      
       const savedUpdate = await userRepository.update(id_user, updateUser);
       return savedUpdate;
     } else {
@@ -98,3 +110,6 @@ class UserService {
 }
 
 export default UserService;
+
+
+// ai ai como eu vou fazer o bagulho da senha :D
