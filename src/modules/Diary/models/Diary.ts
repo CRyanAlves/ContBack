@@ -6,7 +6,7 @@ export default class Diary {
   @PrimaryColumn({ name: 'id_meu_diário' })
   id: string;
 
-  @ManyToOne(() => User)
+  @ManyToOne(() => User, { nullable: false, eager: true })
   @JoinColumn({name: 'id_user'})
   id_user: string;
 

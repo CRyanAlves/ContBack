@@ -1,4 +1,5 @@
 import Diary from '@modules/Diary/models/Diary';
+import SosConfig from '@modules/SOS/models/SosConfig';
 import User from '@modules/User/models/user';
 import 'dotenv/config';
 import { DataSource } from 'typeorm';
@@ -14,5 +15,5 @@ export const AppDataSource = new DataSource({
   database: process.env.DB_NAME,
   synchronize: true,
   logging: true,
-  entities: [User, Diary],
+  entities: [User, Diary, SosConfig],
 });

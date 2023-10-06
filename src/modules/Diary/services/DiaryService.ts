@@ -44,10 +44,20 @@ export default class DiaryService {
         question2,
         question3,
         question4,
-      )
+      );
       await diaryRepository.save(newUser);
     }
     return 'User Not Found';
   }
 
+  async getDiary() {
+    const getUserFromDiary = await diaryRepository.find();
+    return getUserFromDiary;
+  }
+
+  async getDiaryByUser(id_user: string) {
+    const getUserFromDiary = await diaryRepository.findOneBy({ id: id_user });
+    console.log(getUserFromDiary);
+    return getUserFromDiary;
+  }
 }

@@ -46,7 +46,7 @@ class UserService {
       const jwtToken = jwt.sign(
         { email: foundUser?.email, id: foundUser?.id },
         SECRET,
-        { expiresIn: 300 },
+        // { expiresIn: 300 },
       );
       return jwtToken;
     }
@@ -91,16 +91,15 @@ class UserService {
       updateUser.name = !user ? getUser?.name : user;
       updateUser.telUser = !tel_user ? getUser?.telUser : tel_user;
       updateUser.telEmgUser = !tel_emg_user ? getUser?.telEmgUser : tel_emg_user ;
-      console.log(tel_emg_user);
 
-    if(senha_user){ 
+    if(senha_user){
       const hashDigest = sha256(senha_user);
       logger.debug('HashAntes: ', hashDigest);
       const privateKey = 'FIEC2023';
       const passwordHashed = Base64.stringify(hmacSHA512(hashDigest, privateKey));
       updateUser.password = !user ? getUser?.password : passwordHashed;
       }
-      
+
       const savedUpdate = await userRepository.update(id_user, updateUser);
       return savedUpdate;
     } else {

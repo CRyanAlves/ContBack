@@ -27,4 +27,31 @@ export default class DiaryController {
       return res.status(400).send(`erro no controller CreateDiary ${error}`);
     }
   }
+
+  async getDiary(req: Request, res: Response) {
+    try {
+      const id = (req as any).authUser;
+      if (!id) {
+        return res.status(404).send({ error: 'User not found' });
+      }
+      const saveUser = await new DiaryService().getDiary();
+      return res.send({ res: saveUser });
+    } catch (err) {
+      res.status(401).send('Get User Failed');
+    }
+  }
+
+  async getDiaryByUser(req: Request, res: Response) {
+    try {
+      const id = (req as any).authUser;
+      if (!id) {
+        return res.status(404).send({ error: 'User not found' });
+      }
+
+      const saveUser = await new DiaryService().getDiaryByUser(id.id);
+      return res.send({ res: saveUser });
+    } catch (err) {
+      res.status(401).send('Get User Failed');
+    }
+  }
 }
