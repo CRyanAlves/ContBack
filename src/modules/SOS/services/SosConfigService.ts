@@ -1,6 +1,3 @@
-import User from '@modules/User/models/user';
-import userRepository from '@modules/User/models/user.repository';
-import csvParser from 'csv-parser';
 import { v4 } from 'uuid';
 import SosConfig from '../models/SosConfig';
 import sosRepository from '../models/sos.repository';
@@ -23,7 +20,7 @@ export default class SosConfigService {
       const uploadFile = new SosConfig()
       uploadFile.UserUrl = file.path
       const saveFile = await sosRepository.update(id, uploadFile);
-      
+
     } catch (err) {
       console.log(`Upload error: ${err}`);
       return 'Upload Failed';
