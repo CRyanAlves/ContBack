@@ -20,10 +20,12 @@ export default class SosConfigService {
       const uploadFile = new SosConfig()
       uploadFile.UserUrl = file.path
       const saveFile = await sosRepository.update(id, uploadFile);
-
+      return saveFile
     } catch (err) {
       console.log(`Upload error: ${err}`);
       return 'Upload Failed';
     }
   }
+
+
 }

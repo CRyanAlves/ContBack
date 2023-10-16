@@ -1,11 +1,5 @@
 import 'reflect-metadata';
-import {
-  Entity,
-  CreateDateColumn,
-  UpdateDateColumn,
-  Column,
-  PrimaryColumn,
-} from 'typeorm';
+import { Entity, CreateDateColumn, UpdateDateColumn, Column, PrimaryColumn } from 'typeorm';
 
 @Entity({ name: 'usuario' })
 export default class User {

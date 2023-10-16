@@ -2,6 +2,7 @@ import { v4 } from 'uuid';
 import Diary from '../models/Diary';
 import diaryRepository from '../models/diary.repository';
 import userRepository from '@modules/User/models/user.repository';
+import User from '@modules/User/models/user';
 
 export default class DiaryService {
   getDiaryFromData(
@@ -21,7 +22,8 @@ export default class DiaryService {
     newDiary.question2 = question2;
     newDiary.question3 = question3;
     newDiary.question4 = question4;
-    newDiary.id_user = id_user;
+    newDiary.user = new User();
+    newDiary.user.id = id_user;
     return newDiary;
   }
 
@@ -56,7 +58,7 @@ export default class DiaryService {
   }
 
   async getDiaryByUser(id_user: string) {
-    const getUserFromDiary = await diaryRepository.findOneBy({ id: id_user });
+    const getUserFromDiary = await diaryRepository.findBy({ user: { id: id_user } });
     console.log(getUserFromDiary);
     return getUserFromDiary;
   }

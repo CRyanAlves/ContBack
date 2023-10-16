@@ -1,5 +1,13 @@
 import User from '@modules/User/models/user';
-import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryColumn, UpdateDateColumn } from 'typeorm';
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  PrimaryColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 
 @Entity('meu_diario')
 export default class Diary {
@@ -7,8 +15,8 @@ export default class Diary {
   id: string;
 
   @ManyToOne(() => User, { nullable: false, eager: true })
-  @JoinColumn({name: 'id_user'})
-  id_user: string;
+  @JoinColumn()
+  user: User;
 
   @Column({ name: 'titulo', type: 'varchar', length: '50' })
   title: string;
@@ -40,6 +48,4 @@ export default class Diary {
     onUpdate: 'CURRENT_TIMESTAMP(6)',
   })
   public updated_at: Date;
-
-
 }
