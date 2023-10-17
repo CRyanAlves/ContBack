@@ -6,12 +6,11 @@ export default class SosConfig {
   @PrimaryColumn({ name: 'id_sos_config' })
   id: string;
 
-  @Column({ name: 'UserUrl' })
-  UserUrl: string;
+  @Column({ name: 'user_url' })
+  user_url: string;
 
   @ManyToOne(() => User, { nullable: false, eager: true })
-  @JoinColumn({ name: 'id_user' })
-  id_user: string;
+  user: User;
 
   @CreateDateColumn({
     type: 'timestamp',

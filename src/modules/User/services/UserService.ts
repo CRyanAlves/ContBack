@@ -109,6 +109,3 @@ class UserService {
 }
 
 export default UserService;
-
-
-// ai ai como eu vou fazer o bagulho da senha :D

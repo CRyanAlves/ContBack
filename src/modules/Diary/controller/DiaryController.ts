@@ -54,4 +54,20 @@ export default class DiaryController {
       res.status(401).send('Get User Failed');
     }
   }
+
+  async updateDiary(req: Request, res: Response) {
+    try {
+      const { title, description, question1, question2, question3, question4 } = req.body; // aumente aqui e no "new" se precisar
+      const { id_meu_diário } = req.params
+      const { id } = (req as any).authUser;
+      console.log()
+      if (!id) {
+        return res.status(404).send({ error: 'User not found' });
+      }
+      await new DiaryService().updateDiary(id, id_meu_diário, title, description, question1, question2, question3, question4);
+      return res.send('Diário Atualizado');
+    } catch (err) {
+      res.status(401).send('Get User Failed');
+    }
+  }
 }

@@ -59,7 +59,41 @@ export default class DiaryService {
 
   async getDiaryByUser(id_user: string) {
     const getUserFromDiary = await diaryRepository.findBy({ user: { id: id_user } });
-    console.log(getUserFromDiary);
     return getUserFromDiary;
+  }
+
+  async updateDiary(
+    id_user: string,
+    id_meu_diário: string,
+    title: string,
+    description: string,
+    question1: string,
+    question2: string,
+    question3: string,
+    question4: string,
+  ) {
+    const getUserFromDiary = await diaryRepository.findBy({ user: { id: id_user } });
+
+    if (!getUserFromDiary) {
+      return 'User not found';
+    }
+
+    const getDiaryById = await diaryRepository.findOneBy({ id: id_meu_diário });
+    const updateDiary = new Diary();
+
+    if (getDiaryById) {
+      updateDiary.title = !title ? getDiaryById?.title : title;
+      updateDiary.description = !description ? getDiaryById?.description : description;
+      updateDiary.question1 = !question1 ? getDiaryById?.question1 : question1;
+      updateDiary.question2 = !question2 ? getDiaryById?.question2 : question2;
+      updateDiary.question3 = !question3 ? getDiaryById?.question3 : question3;
+      updateDiary.question4 = !question4 ? getDiaryById?.question4 : question4;
+
+      const savedUpdate = await diaryRepository.update(getDiaryById.id, updateDiary);
+      console.log(savedUpdate)
+      return savedUpdate;
+    } else {
+      return 'Diary not found';
+    }
   }
 }
