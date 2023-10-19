@@ -103,7 +103,7 @@ export default class DiaryService {
     } else {
       await diaryRepository.delete({ id: id_meu_diário });
 
-      return 'User deleted';
+      return 'Diary deleted';
     }
   }
 }

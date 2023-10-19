@@ -4,6 +4,10 @@ import SosConfigController from "../controller/SosConfigController";
 
 const sosRouter = Router()
 
-sosRouter.put('/uploadSos', uploadFile.single('file'), new SosConfigController().uploadFile )
+sosRouter.post('/uploadFile', uploadFile.single('file'), new SosConfigController().uploadFile )
+
+sosRouter.get('/findFile', new SosConfigController().findFile)
+
+sosRouter.delete('/deleteFile/:id', new SosConfigController().deleteFile)
 
 export default sosRouter;

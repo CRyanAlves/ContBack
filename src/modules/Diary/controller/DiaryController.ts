@@ -47,8 +47,8 @@ export default class DiaryController {
         return res.status(404).send({ error: 'User not found' });
       }
 
-      const saveUser = await new DiaryService().getDiaryByUser(id.id);
-      return res.send({ res: saveUser });
+      const getDiary = await new DiaryService().getDiaryByUser(id.id);
+      return res.send({ res: getDiary });
     } catch (err) {
       res.status(401).send('Get User Failed');
     }

@@ -14,15 +14,13 @@ export default class SosConfigService {
   }
 
   async uploadFile(id: string, file: any) {
-    console.log(file, id)
     try {
-      const findSos = await sosRepository.findOneBy({user: {id: id} });
-      if (findSos == null) {
-        return {erro: 'User not found'};
-      }
       const uploadFile = new SosConfig()
+      uploadFile.id = v4()
+      uploadFile.user = new User();
+      uploadFile.user.id = id;
       uploadFile.user_url = file.path
-      const saveFile = await sosRepository.update(id, uploadFile);
+      const saveFile = await sosRepository.save(uploadFile);
       return saveFile
     } catch (err) {
       console.log(`Upload error: ${err}`);
@@ -30,5 +28,20 @@ export default class SosConfigService {
     }
   }
 
+  async findFile(id_user: string) {
+    const getUserFromDiary = await sosRepository.findBy({ user: { id: id_user } });
+    return getUserFromDiary;
+  }
 
+  async deleteFile(id_user: string, id_file: string) {
+    const getFileById = await sosRepository.findOneBy({ id: id_file });
+
+    if (id_user != getFileById?.user.id) {
+      return 'User not accessible this File';
+    } else {
+      await sosRepository.delete({ id: id_file });
+
+      return 'File deleted';
+    }
+  }
 }
