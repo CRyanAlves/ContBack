@@ -60,7 +60,6 @@ class UserController {
       if (!id) {
         return res.status(404).send({ error: 'User not found' });
       }
-      console.log(id);
       await new UserService().deleteUser(id);
       return res.send({ res: 'Usuário Deletado' });
     } catch (err) {
@@ -72,7 +71,6 @@ class UserController {
     try {
       const { nome, tel_user, tel_emg_user, senha_user } = req.body; // aumente aqui e no "new" se precisar
       const { id } = (req as any).authUser;
-      console.log()
       if (!id) {
         return res.status(404).send({ error: 'User not found' });
       }

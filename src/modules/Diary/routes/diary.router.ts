@@ -11,4 +11,6 @@ diaryRouter.get('/findDiary', new DiaryController().getDiaryByUser);
 
 diaryRouter.put('/updateDiary/:id', new DiaryController().updateDiary);
 
+diaryRouter.delete('/deleteDiary/:id', new DiaryController().deleteDiary);
+
 export default diaryRouter;
