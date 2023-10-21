@@ -6,13 +6,13 @@ export default class User {
   @PrimaryColumn({ name: 'id_user' })
   id: string;
 
-  @Column({ name: 'email_user' })
+  @Column({ name: 'email' })
   email: string;
 
-  @Column({ name: 'nome_user' })
+  @Column({ name: 'name' })
   name: string;
 
-  @Column({ name: 'senha_user' })
+  @Column({ name: 'password' })
   password: string;
 
   @Column({ name: 'tel_user', type: 'varchar', length: 11 })
@@ -20,6 +20,9 @@ export default class User {
 
   @Column({ name: 'tel_emg_user', type: 'varchar', length: 11 })
   telEmgUser: number;
+
+  @Column({name: 'admin', default: 'false'})
+  admin: string;
 
   @CreateDateColumn({
     type: 'timestamp',
