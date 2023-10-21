@@ -1,6 +1,5 @@
 import { Request, Response } from 'express';
 import DiaryService from '../services/DiaryService';
-import diaryRepository from '../models/diary.repository';
 
 export default class DiaryController {
   async createDiary(req: Request, res: Response) {
@@ -10,15 +9,14 @@ export default class DiaryController {
       if (!id_user) {
         return res.status(404).send({ error: 'User not found 2' });
       }
-      const { title, description, question1, question2, question3, question4 } = req.body;
+      const { title, description, question1, question2, question3 } = req.body;
       await new DiaryService().createDiary(
         id_user,
         title,
         description,
         question1,
         question2,
-        question3,
-        question4,
+        question3
       );
       res.json('Bem criado!');
       console.log(id_user);
@@ -57,12 +55,12 @@ export default class DiaryController {
   async getDiaryById(req: Request, res: Response) {
     try {
       const { id } = (req as any).authUser;
-      const   id_meu_diário   = req.params.id;
+      const   id_my_diary   = req.params.id;
 
-      if (!id_meu_diário) {
+      if (!id_my_diary) {
         return res.status(404).send({ error: 'Diary not exist' });
       }
-      const getDiary = await new DiaryService().getDiaryById(id, id_meu_diário)
+      const getDiary = await new DiaryService().getDiaryById(id, id_my_diary)
       return res.json(getDiary);
     } catch (err) {
       res.status(401).send('Get User Failed');
@@ -71,18 +69,17 @@ export default class DiaryController {
 
   async updateDiary(req: Request, res: Response) {
     try {
-      const { title, description, question1, question2, question3, question4 } = req.body; // aumente aqui e no "new" se precisar
-      const  id_meu_diário  = req.params.id;
+      const { title, description, question1, question2, question3 } = req.body; // aumente aqui e no "new" se precisar
+      const  id_my_diary  = req.params.id;
       const { id } = (req as any).authUser;
       const resUpdate = await new DiaryService().updateDiary(
         id,
-        id_meu_diário,
+        id_my_diary,
         title,
         description,
         question1,
         question2,
         question3,
-        question4,
       );
       return res.json(resUpdate);
     } catch (err) {
@@ -93,13 +90,13 @@ export default class DiaryController {
   async deleteDiary(req: Request, res: Response) {
     try {
       const { id } = (req as any).authUser;
-      const   id_meu_diário   = req.params.id;
+      const   id_my_diary   = req.params.id;
 
-      if (!id_meu_diário) {
+      if (!id_my_diary) {
         return res.status(404).send({ error: 'Diary not exist' });
       }
 
-      const resDelete = await new DiaryService().deleteDiary(id, id_meu_diário);
+      const resDelete = await new DiaryService().deleteDiary(id, id_my_diary);
       return res.json(resDelete);
     } catch (err) {
       res.status(401).send('Get User Failed');

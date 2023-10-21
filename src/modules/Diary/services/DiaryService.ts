@@ -12,7 +12,6 @@ export default class DiaryService {
     question1: string,
     question2: string,
     question3: string,
-    question4: string,
   ): Diary {
     const newDiary = new Diary();
     newDiary.id = v4();
@@ -21,7 +20,6 @@ export default class DiaryService {
     newDiary.question1 = question1;
     newDiary.question2 = question2;
     newDiary.question3 = question3;
-    newDiary.question4 = question4;
     newDiary.user = new User();
     newDiary.user.id = id_user;
     return newDiary;
@@ -34,7 +32,6 @@ export default class DiaryService {
     question1: string,
     question2: string,
     question3: string,
-    question4: string,
   ) {
     const getUser = await userRepository.findOneBy({ id: id_user });
     if (getUser) {
@@ -45,7 +42,6 @@ export default class DiaryService {
         question1,
         question2,
         question3,
-        question4,
       );
       await diaryRepository.save(newUser);
     }
@@ -62,8 +58,8 @@ export default class DiaryService {
     return getUserFromDiary;
   }
 
-  async getDiaryById(id_user: string, id_meu_diário: string) {
-    const getDiaryById = await diaryRepository.findOneBy({id: id_meu_diário})
+  async getDiaryById(id_user: string, id_my_diary: string) {
+    const getDiaryById = await diaryRepository.findOneBy({id: id_my_diary})
     if(id_user != getDiaryById?.user.id ) {
       return 'User can not access this Diary'
     }
@@ -72,15 +68,14 @@ export default class DiaryService {
 
   async updateDiary(
     id_user: string,
-    id_meu_diário: string,
+    id_my_diary: string,
     title: string,
     description: string,
     question1: string,
     question2: string,
     question3: string,
-    question4: string,
   ) {
-    const getDiaryById = await diaryRepository.findOneBy({ id: id_meu_diário });
+    const getDiaryById = await diaryRepository.findOneBy({ id: id_my_diary });
 
     if (id_user != getDiaryById?.user.id) {
       return 'User can not access this Diary';
@@ -93,7 +88,6 @@ export default class DiaryService {
       updateDiary.question1 = !question1 ? getDiaryById?.question1 : question1;
       updateDiary.question2 = !question2 ? getDiaryById?.question2 : question2;
       updateDiary.question3 = !question3 ? getDiaryById?.question3 : question3;
-      updateDiary.question4 = !question4 ? getDiaryById?.question4 : question4;
 
       await diaryRepository.update(getDiaryById.id, updateDiary);
 
@@ -103,13 +97,13 @@ export default class DiaryService {
     }
   }
 
-  async deleteDiary(id_user: string, id_meu_diário: string) {
-    const getDiaryById = await diaryRepository.findOneBy({ id: id_meu_diário });
+  async deleteDiary(id_user: string, id_my_diary: string) {
+    const getDiaryById = await diaryRepository.findOneBy({ id: id_my_diary });
 
     if (id_user != getDiaryById?.user.id) {
       return 'User not accessible this Diary';
     } else {
-      await diaryRepository.delete({ id: id_meu_diário });
+      await diaryRepository.delete({ id: id_my_diary });
 
       return 'Diary deleted';
     }
