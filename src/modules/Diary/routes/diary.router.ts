@@ -7,7 +7,9 @@ diaryRouter.post('/createDiary', new DiaryController().createDiary);
 
 diaryRouter.get('/listDiary', new DiaryController().getDiary);
 
-diaryRouter.get('/findDiary', new DiaryController().getDiaryByUser);
+diaryRouter.get('/listDiaryByUserId', new DiaryController().getDiaryByUser);
+
+diaryRouter.get('/findDiary/:id', new DiaryController().getDiaryById)
 
 diaryRouter.put('/updateDiary/:id', new DiaryController().updateDiary);
 

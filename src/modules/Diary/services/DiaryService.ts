@@ -62,6 +62,14 @@ export default class DiaryService {
     return getUserFromDiary;
   }
 
+  async getDiaryById(id_user: string, id_meu_diário: string) {
+    const getDiaryById = await diaryRepository.findOneBy({id: id_meu_diário})
+    if(id_user != getDiaryById?.user.id ) {
+      return 'User can not access this Diary'
+    }
+      return getDiaryById
+  }
+
   async updateDiary(
     id_user: string,
     id_meu_diário: string,
@@ -75,7 +83,7 @@ export default class DiaryService {
     const getDiaryById = await diaryRepository.findOneBy({ id: id_meu_diário });
 
     if (id_user != getDiaryById?.user.id) {
-      return 'User not accessible this Diary';
+      return 'User can not access this Diary';
     }
     const updateDiary = new Diary();
 

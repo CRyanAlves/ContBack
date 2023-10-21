@@ -54,6 +54,21 @@ export default class DiaryController {
     }
   }
 
+  async getDiaryById(req: Request, res: Response) {
+    try {
+      const { id } = (req as any).authUser;
+      const   id_meu_diário   = req.params.id;
+
+      if (!id_meu_diário) {
+        return res.status(404).send({ error: 'Diary not exist' });
+      }
+      const getDiary = await new DiaryService().getDiaryById(id, id_meu_diário)
+      return res.json(getDiary);
+    } catch (err) {
+      res.status(401).send('Get User Failed');
+    }
+  }
+
   async updateDiary(req: Request, res: Response) {
     try {
       const { title, description, question1, question2, question3, question4 } = req.body; // aumente aqui e no "new" se precisar
