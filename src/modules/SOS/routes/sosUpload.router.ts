@@ -8,6 +8,8 @@ sosRouter.post('/uploadFile', uploadFile.single('file'), new SosConfigController
 
 sosRouter.get('/findFile', new SosConfigController().findFile)
 
+sosRouter.get('/findFileById/:id', new SosConfigController().findFilesById)
+
 sosRouter.delete('/deleteFile/:id', new SosConfigController().deleteFile)
 
 export default sosRouter;

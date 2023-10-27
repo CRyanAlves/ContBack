@@ -15,14 +15,14 @@ class UserController {
     try {
       const { email_user, nome_user, senha_user, tel_user, tel_emg_user } =
         req.body;
-      await new UserService().signUpUser(
+      const createUser = await new UserService().signUpUser(
         email_user,
         nome_user,
         senha_user,
         tel_user,
         tel_emg_user,
       );
-      res.json('Bem criado!');
+      return res.send({ res: createUser });
     } catch (error) {
       return res.status(400).send(`erro no controller sign up user ${error}`);
     }
@@ -47,7 +47,7 @@ class UserController {
       if (!id) {
         return res.status(404).send({ error: 'User not found' });
       }
-      const listUser = await new UserService().listUser();
+      const listUser = await new UserService().listUser(id.id);
       return res.send({ res: listUser });
     } catch (err) {
       res.status(401).send('Get User Failed');

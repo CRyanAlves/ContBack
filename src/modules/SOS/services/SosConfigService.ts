@@ -33,6 +33,16 @@ export default class SosConfigService {
     return getUserFromDiary;
   }
 
+  async findFileById(id_user: string, id_file: string) {
+    const getFileById = await sosRepository.findOneBy({ id: id_file });
+
+    if (id_user != getFileById?.user.id) {
+      return 'User not accessible this File';
+    } else {
+      return getFileById
+    }
+  }
+
   async deleteFile(id_user: string, id_file: string) {
     const getFileById = await sosRepository.findOneBy({ id: id_file });
 

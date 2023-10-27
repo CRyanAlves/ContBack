@@ -91,7 +91,7 @@ export default class DiaryService {
 
       await diaryRepository.update(getDiaryById.id, updateDiary);
 
-      return 'User Updated';
+      return 'Diary Updated';
     } else {
       return 'Diary not found';
     }

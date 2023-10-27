@@ -60,14 +60,13 @@ class UserService {
     telUser: number,
     telEmgUser: number,
   ) {
-    const newUser = this.getUserFromData(
-      email,
-      name,
-      password,
-      telUser,
-      telEmgUser,
-    );
+    const existEmail = await userRepository.findOne({where: {email}});
+    if (!!existEmail) {
+      return 'Email já Utilizado'
+    }
+    const newUser = this.getUserFromData(email, name, password, telUser, telEmgUser);
     await userRepository.save(newUser);
+    return 'Bem Criado'
   }
 
   async getByUser(id_user: string) {
@@ -75,29 +74,40 @@ class UserService {
     return getUser;
   }
 
-  async listUser() {
-    const getUser = await userRepository.find();
-    return getUser;
+  async listUser(id_user: string) {
+    const getAdm = await userRepository.findOneBy({ id: id_user });
+
+    if (getAdm?.isAdmin === true) {
+      const getUser = await userRepository.find();
+      return getUser;
+    }
+    return 'User is not ADM';
   }
 
   async deleteUser(id_user: string) {
     await userRepository.delete(id_user);
   }
 
-  async updateUser(id_user: string, user: string, tel_user: number, tel_emg_user: number, senha_user: string) {
+  async updateUser(
+    id_user: string,
+    user: string,
+    tel_user: number,
+    tel_emg_user: number,
+    senha_user: string,
+  ) {
     const getUser = await userRepository.findOneBy({ id: id_user });
     const updateUser = new User();
     if (getUser) {
       updateUser.name = !user ? getUser?.name : user;
       updateUser.telUser = !tel_user ? getUser?.telUser : tel_user;
-      updateUser.telEmgUser = !tel_emg_user ? getUser?.telEmgUser : tel_emg_user ;
+      updateUser.telEmgUser = !tel_emg_user ? getUser?.telEmgUser : tel_emg_user;
 
-    if(senha_user){
-      const hashDigest = sha256(senha_user);
-      logger.debug('HashAntes: ', hashDigest);
-      const privateKey = 'FIEC2023';
-      const passwordHashed = Base64.stringify(hmacSHA512(hashDigest, privateKey));
-      updateUser.password = !user ? getUser?.password : passwordHashed;
+      if (senha_user) {
+        const hashDigest = sha256(senha_user);
+        logger.debug('HashAntes: ', hashDigest);
+        const privateKey = 'FIEC2023';
+        const passwordHashed = Base64.stringify(hmacSHA512(hashDigest, privateKey));
+        updateUser.password = !user ? getUser?.password : passwordHashed;
       }
 
       const savedUpdate = await userRepository.update(id_user, updateUser);

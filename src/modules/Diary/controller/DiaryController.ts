@@ -19,7 +19,6 @@ export default class DiaryController {
         question3
       );
       res.json('Bem criado!');
-      console.log(id_user);
     } catch (error) {
       return res.status(400).send(`erro no controller CreateDiary ${error}`);
     }

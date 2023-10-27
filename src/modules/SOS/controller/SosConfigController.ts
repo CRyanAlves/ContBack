@@ -30,6 +30,21 @@ export default class SosConfigController {
     }
   }
 
+  async findFilesById(req: Request, res: Response) {
+    try {
+      const id = (req as any).authUser;
+      const id_file  = req.params.id
+      if (!id) {
+        return res.status(404).send({ error: 'User not found' });
+      }
+
+      const getSosFiles = await new SosConfigService().findFileById(id, id_file);
+      return res.send({ res: getSosFiles });
+    } catch (err) {
+      res.status(401).send('Get User Failed');
+    }
+  }
+
   async deleteFile(req: Request, res: Response) {
     try {
       const { id } = (req as any).authUser;

@@ -21,8 +21,8 @@ export default class User {
   @Column({ name: 'tel_emg_user', type: 'varchar', length: 11 })
   telEmgUser: number;
 
-  @Column({name: 'admin', default: 'false'})
-  admin: string;
+  @Column({name: 'isAdmin', default: false})
+  isAdmin: boolean;
 
   @CreateDateColumn({
     type: 'timestamp',
