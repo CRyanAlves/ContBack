@@ -1,3 +1,4 @@
+import Brief from '@modules/Brief/models/Brief';
 import Diary from '@modules/Diary/models/Diary';
 import SosConfig from '@modules/SOS/models/SosConfig';
 import User from '@modules/User/models/user';
@@ -15,5 +16,5 @@ export const AppDataSource = new DataSource({
   database: process.env.DB_NAME,
   synchronize: true,
   logging: true,
-  entities: [User, Diary, SosConfig],
+  entities: [User, Diary, SosConfig, Brief],
 });
