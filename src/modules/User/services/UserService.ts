@@ -11,19 +11,11 @@ import logger from '@config/logger';
 import { SECRET } from '@shared/constants';
 
 class UserService {
-  getUserFromData(
-    email: string,
-    name: string,
-    password: string,
-    telUser: number,
-    telEmgUser: number,
-  ): User {
+  getUserFromData(email: string, name: string, password: string): User {
     const newUser = new User();
     newUser.id = v4();
     newUser.email = email;
     newUser.name = name;
-    newUser.telUser = telUser;
-    newUser.telEmgUser = telEmgUser;
     const hashDigest = sha256(password);
     logger.debug('HashAntes: ', hashDigest);
     const privateKey = 'FIEC2023';
@@ -53,20 +45,14 @@ class UserService {
     throw new Error('User not found');
   }
 
-  async signUpUser(
-    email: string,
-    name: string,
-    password: string,
-    telUser: number,
-    telEmgUser: number,
-  ) {
-    const existEmail = await userRepository.findOne({where: {email}});
+  async signUpUser(email: string, name: string, password: string) {
+    const existEmail = await userRepository.findOne({ where: { email } });
     if (!!existEmail) {
-      return 'Email já Utilizado'
+      return 'Email já Utilizado';
     }
-    const newUser = this.getUserFromData(email, name, password, telUser, telEmgUser);
+    const newUser = this.getUserFromData(email, name, password);
     await userRepository.save(newUser);
-    return 'Bem Criado'
+    return 'Bem Criado';
   }
 
   async getByUser(id_user: string) {
@@ -88,19 +74,11 @@ class UserService {
     await userRepository.delete(id_user);
   }
 
-  async updateUser(
-    id_user: string,
-    user: string,
-    tel_user: number,
-    tel_emg_user: number,
-    senha_user: string,
-  ) {
+  async updateUser(id_user: string, user: string, senha_user: string) {
     const getUser = await userRepository.findOneBy({ id: id_user });
     const updateUser = new User();
     if (getUser) {
       updateUser.name = !user ? getUser?.name : user;
-      updateUser.telUser = !tel_user ? getUser?.telUser : tel_user;
-      updateUser.telEmgUser = !tel_emg_user ? getUser?.telEmgUser : tel_emg_user;
 
       if (senha_user) {
         const hashDigest = sha256(senha_user);

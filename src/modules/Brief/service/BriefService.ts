@@ -31,9 +31,9 @@ export default class BriefService {
     return 'Brief not found';
   }
 
-  async listByFalseBrief(id_user: string, status: boolean) {
-    const getUser = await userRepository.findOneBy({ id: id_user });
-    if (getUser?.isAdmin === true) {
+  async listByFalseBrief(id_user: string) {
+    const getAdm = await userRepository.findOneBy({ id: id_user });
+    if (getAdm?.isAdmin === true) {
       const getUserFromBrief = await briefRepository.find({ where: { status: false } });
       if (getUserFromBrief.length > 0) {
         return getUserFromBrief;
@@ -43,18 +43,35 @@ export default class BriefService {
     return 'User is not ADM';
   }
 
-  async updateBrief(id_brief: string, status: boolean) {
-    const getBriefById = await briefRepository.findOneBy({ id: id_brief });
-    const updateBrief = new Brief();
+  async updateBriefByAdm(id_brief: string, status: boolean, id_user: string) {
+    const getAdm = await userRepository.findOneBy({ id: id_user });
+    if (getAdm?.isAdmin === true) {
+      const getBriefById = await briefRepository.findOneBy({ id: id_brief });
+      const updateBrief = new Brief();
 
-    if (getBriefById) {
-      updateBrief.status = !status ? getBriefById?.status : status;
+      if (getBriefById) {
+        updateBrief.status = !status ? getBriefById?.status : status;
 
-      await briefRepository.update(getBriefById.id, updateBrief);
+        await briefRepository.update(getBriefById.id, updateBrief);
 
-      return 'Brief Updated';
-    } else {
-      return 'Brief not found';
+        return 'Brief Updated';
+      } else {
+        return 'Brief not found';
+      }
     }
+    return 'User is not ADM';
+  }
+
+  async deleteBriefByAdm(id_brief: string, id_user: string) {
+    const getAdm = await userRepository.findOneBy({ id: id_user });
+    if (getAdm?.isAdmin === true) {
+      const briefExist = await briefRepository.findOneBy({ id: id_brief });
+      if (!!briefExist) {
+        await briefRepository.delete({ id: id_brief });
+        return 'Brief Deleted';
+      }
+      return 'Brief is not exist';
+    }
+    return 'User is not ADM';
   }
 }

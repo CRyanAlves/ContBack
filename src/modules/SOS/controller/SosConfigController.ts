@@ -4,13 +4,17 @@ import SosConfigService from '../services/SosConfigService';
 export default class SosConfigController {
   async uploadFile(req: Request, res: Response) {
     try {
+      const { id } = (req as any).authUser;
+      if (!id) {
+        return res.status(404).json({ error: 'User not found' });
+      }
       const file = req.file;
       if (!file) {
-        return res.send({ error: 'File not found' });
+        return res.json({ error: 'File not found' });
       }
-      const { id } = (req as any).authUser;
-      const saveFile = await new SosConfigService().uploadFile(id, file);
-      return res.status(200).send({ res: saveFile });
+      const { description } = req.body;
+      const saveFile = await new SosConfigService().uploadFile(id, file, description);
+      return res.status(200).json(saveFile);
     } catch (err) {
       res.status(401).send('Upload File Failed');
     }
@@ -20,7 +24,7 @@ export default class SosConfigController {
     try {
       const id = (req as any).authUser;
       if (!id) {
-        return res.status(404).send({ error: 'User not found' });
+        return res.status(404).json({ error: 'User not found' });
       }
 
       const getSosFiles = await new SosConfigService().findFile(id.id);
@@ -33,13 +37,13 @@ export default class SosConfigController {
   async findFilesById(req: Request, res: Response) {
     try {
       const id = (req as any).authUser;
-      const id_file  = req.params.id
+      const id_file = req.params.id;
       if (!id) {
-        return res.status(404).send({ error: 'User not found' });
+        return res.status(404).json({ error: 'User not found' });
       }
 
       const getSosFiles = await new SosConfigService().findFileById(id, id_file);
-      return res.send({ res: getSosFiles });
+      return res.json(getSosFiles);
     } catch (err) {
       res.status(401).send('Get User Failed');
     }
@@ -48,7 +52,7 @@ export default class SosConfigController {
   async deleteFile(req: Request, res: Response) {
     try {
       const { id } = (req as any).authUser;
-      const  id_file   = req.params.id;
+      const id_file = req.params.id;
 
       if (!id_file) {
         return res.status(404).send({ error: 'File not exist' });

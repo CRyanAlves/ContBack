@@ -13,14 +13,12 @@ class UserController {
   }
   async signUpUser(req: Request, res: Response) {
     try {
-      const { email_user, nome_user, senha_user, tel_user, tel_emg_user } =
+      const { email_user, nome_user, senha_user } =
         req.body;
       const createUser = await new UserService().signUpUser(
         email_user,
         nome_user,
-        senha_user,
-        tel_user,
-        tel_emg_user,
+        senha_user
       );
       return res.send({ res: createUser });
     } catch (error) {
@@ -69,12 +67,12 @@ class UserController {
 
   async updateUser(req: Request, res: Response) {
     try {
-      const { nome, tel_user, tel_emg_user, senha_user } = req.body; // aumente aqui e no "new" se precisar
+      const { nome, senha_user } = req.body;
       const { id } = (req as any).authUser;
       if (!id) {
         return res.status(404).send({ error: 'User not found' });
       }
-      const response = await new UserService().updateUser(id, nome, tel_user, tel_emg_user, senha_user);
+      const response = await new UserService().updateUser(id, nome, senha_user);
       return res.send({ res: response });
     } catch (err) {
       res.status(401).send('Get User Failed');

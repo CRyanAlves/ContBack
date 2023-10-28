@@ -24,7 +24,7 @@ export default class BriefController {
       }
       const { status } = req.body;
       const saveBrief = await new BriefService().listByTrueBrief();
-      return res.send({ res: saveBrief });
+      return res.json(saveBrief);
     } catch (err) {
       res.status(401).send('Get Brief Failed');
     }
@@ -32,25 +32,41 @@ export default class BriefController {
 
   async listByFalseBrief(req: Request, res: Response) {
     try {
-      const id = (req as any).authUser;
+      const { id } = (req as any).authUser;
       if (!id) {
         return res.status(404).send({ error: 'User not found' });
       }
-      const { status } = req.body;
-      const saveBrief = await new BriefService().listByFalseBrief(status, id);
-      return res.send({ res: saveBrief });
+      const saveBrief = await new BriefService().listByFalseBrief(id);
+      return res.json(saveBrief);
     } catch (err) {
       res.status(401).send('Get Brief Failed');
     }
   }
 
-  async updateBrief(req: Request, res: Response) {
+  async updateBriefByAdm(req: Request, res: Response) {
     try {
+      const { id } = (req as any).authUser;
+      if (!id) {
+        return res.status(404).json({ error: 'User not found' });
+      }
       const { status } = req.body;
       const id_brief = req.params.id;
-      // const { id } = (req as any).authUser;
-      const resUpdate = await new BriefService().updateBrief(id_brief, status);
+      const resUpdate = await new BriefService().updateBriefByAdm(id_brief, status, id);
       return res.json(resUpdate);
+    } catch (err) {
+      res.status(401).send('Get Brief Failed');
+    }
+  }
+
+  async deleteBriefByAdm(req: Request, res: Response) {
+    try {
+      const { id } = (req as any).authUser;
+      if (!id) {
+        return res.status(404).json({ error: 'User not found' });
+      }
+      const id_brief = req.params.id;
+      const resDelete = await new BriefService().deleteBriefByAdm(id_brief, id);
+      return res.json(resDelete);
     } catch (err) {
       res.status(401).send('Get Brief Failed');
     }

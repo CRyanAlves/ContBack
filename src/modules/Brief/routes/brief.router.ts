@@ -9,8 +9,8 @@ briefRouter.get('/listTrueBrief', new BriefController().listByTrueBrief);
 
 briefRouter.get('/listFalseBrief', new BriefController().listByFalseBrief);
 
-briefRouter.put('/updateBrief/:id', new BriefController().updateBrief);
+briefRouter.put('/updateBriefByAdm/:id', new BriefController().updateBriefByAdm);
 
-// briefRouter.delete('/deletebrief/:id', new BriefController().deletebrief);
+briefRouter.delete('/deleteBriefByAdm/:id', new BriefController().deleteBriefByAdm);
 
 export default briefRouter;
