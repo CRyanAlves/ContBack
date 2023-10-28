@@ -68,7 +68,7 @@ export default class DiaryController {
 
   async updateDiary(req: Request, res: Response) {
     try {
-      const { title, description, question1, question2, question3 } = req.body; // aumente aqui e no "new" se precisar
+      const { title, description, question1, question2, question3 } = req.body;
       const id_my_diary = req.params.id;
       const { id } = (req as any).authUser;
       const resUpdate = await new DiaryService().updateDiary(
