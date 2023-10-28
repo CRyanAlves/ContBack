@@ -28,7 +28,7 @@ export default class BriefService {
     if (getUserFromBrief.length > 0) {
       return getUserFromBrief;
     }
-    return 'Brief not found';
+    throw new Error('Brief not found');
   }
 
   async listByFalseBrief(id_user: string) {
@@ -38,9 +38,9 @@ export default class BriefService {
       if (getUserFromBrief.length > 0) {
         return getUserFromBrief;
       }
-      return 'No brief to approve';
+      throw new Error('No brief to approve');
     }
-    return 'User is not ADM';
+    throw new Error('User is not ADM');
   }
 
   async updateBriefByAdm(id_brief: string, status: boolean, id_user: string) {
@@ -56,7 +56,7 @@ export default class BriefService {
 
         return 'Brief Updated';
       } else {
-        return 'Brief not found';
+        throw new Error('Brief not found');
       }
     }
     return 'User is not ADM';
@@ -70,8 +70,8 @@ export default class BriefService {
         await briefRepository.delete({ id: id_brief });
         return 'Brief Deleted';
       }
-      return 'Brief is not exist';
+      throw new Error('Brief is not exist');
     }
-    return 'User is not ADM';
+    throw new Error('User is not ADM');
   }
 }

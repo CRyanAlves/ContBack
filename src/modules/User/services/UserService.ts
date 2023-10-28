@@ -36,7 +36,7 @@ class UserService {
     });
     if (foundUser) {
       const jwtToken = jwt.sign(
-        { email: foundUser?.email, id: foundUser?.id },
+        { email: foundUser?.email, id: foundUser?.id},
         SECRET,
         // { expiresIn: 300 },
       );
@@ -48,7 +48,7 @@ class UserService {
   async signUpUser(email: string, name: string, password: string) {
     const existEmail = await userRepository.findOne({ where: { email } });
     if (!!existEmail) {
-      return 'Email já Utilizado';
+      throw new Error('Email já utilizado');
     }
     const newUser = this.getUserFromData(email, name, password);
     await userRepository.save(newUser);
@@ -67,7 +67,7 @@ class UserService {
       const getUser = await userRepository.find();
       return getUser;
     }
-    return 'User is not ADM';
+    throw new Error('User is not ADM');
   }
 
   async deleteUser(id_user: string) {
@@ -91,7 +91,7 @@ class UserService {
       const savedUpdate = await userRepository.update(id_user, updateUser);
       return savedUpdate;
     } else {
-      return 'User Not Found';
+      throw new Error('User not found');
     }
   }
 }

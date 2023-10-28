@@ -45,7 +45,7 @@ export default class DiaryService {
       );
       await diaryRepository.save(newUser);
     }
-    return 'User Not Found';
+    throw new Error('User Not Found');
   }
 
   async getDiary() {
@@ -61,7 +61,7 @@ export default class DiaryService {
   async getDiaryById(id_user: string, id_my_diary: string) {
     const getDiaryById = await diaryRepository.findOneBy({id: id_my_diary})
     if(id_user != getDiaryById?.user.id ) {
-      return 'User can not access this Diary'
+      throw new Error('User can not access this Diary');
     }
       return getDiaryById
   }
@@ -78,7 +78,7 @@ export default class DiaryService {
     const getDiaryById = await diaryRepository.findOneBy({ id: id_my_diary });
 
     if (id_user != getDiaryById?.user.id) {
-      return 'User can not access this Diary';
+      throw new Error('User can not access this Diary');
     }
     const updateDiary = new Diary();
 
@@ -93,7 +93,7 @@ export default class DiaryService {
 
       return 'Diary Updated';
     } else {
-      return 'Diary not found';
+      throw new Error('Diary not found');
     }
   }
 
@@ -101,7 +101,7 @@ export default class DiaryService {
     const getDiaryById = await diaryRepository.findOneBy({ id: id_my_diary });
 
     if (id_user != getDiaryById?.user.id) {
-      return 'User not accessible this Diary';
+      throw new Error('User not accessible this Diary');
     } else {
       await diaryRepository.delete({ id: id_my_diary });
 

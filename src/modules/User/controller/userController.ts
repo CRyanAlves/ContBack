@@ -5,12 +5,16 @@ class UserController {
   async loginUser(req: Request, res: Response) {
     const { email, password } = req.body;
     try {
+      if(!email || !password) {
+        return res.status(406).json({ error: 'Password/email not received' });
+      }
       const token = await new UserService().loginUser(email, password);
       res.json({ token });
-    } catch (err) {
-      res.status(401).send('Login Failed');
+    } catch (error) {
+      return res.status(404).json(`Login Failed: ${error}`);
     }
   }
+
   async signUpUser(req: Request, res: Response) {
     try {
       const { email_user, nome_user, senha_user } =
@@ -20,9 +24,9 @@ class UserController {
         nome_user,
         senha_user
       );
-      return res.send({ res: createUser });
+      return res.json({ res: createUser });
     } catch (error) {
-      return res.status(400).send(`erro no controller sign up user ${error}`);
+      return res.status(400).json(`Error: ${error}`);
     }
   }
 
@@ -30,12 +34,12 @@ class UserController {
     try {
       const id = (req as any).authUser;
       if (!id) {
-        return res.status(404).send({ error: 'User not found' });
+        return res.status(404).json({ error: 'User not found' });
       }
       const saveUser = await new UserService().getByUser(id.id);
-      return res.send({ res: saveUser });
-    } catch (err) {
-      res.status(401).send('Get User Failed');
+      return res.json({ res: saveUser });
+    } catch (error) {
+      return res.status(401).json(`Get User Failed: ${error}`);
     }
   }
 
@@ -43,12 +47,12 @@ class UserController {
     try {
       const id = (req as any).authUser;
       if (!id) {
-        return res.status(404).send({ error: 'User not found' });
+        return res.status(404).json({ error: 'User not found' });
       }
       const listUser = await new UserService().listUser(id.id);
-      return res.send({ res: listUser });
-    } catch (err) {
-      res.status(401).send('Get User Failed');
+      return res.json({ res: listUser });
+    } catch (error) {
+      return res.status(401).json(`Get User Failed: ${error}`);
     }
   }
 
@@ -56,12 +60,12 @@ class UserController {
     try {
       const id = (req as any).authUser;
       if (!id) {
-        return res.status(404).send({ error: 'User not found' });
+        return res.status(404).json({ error: 'User not found' });
       }
       await new UserService().deleteUser(id);
-      return res.send({ res: 'Usuário Deletado' });
-    } catch (err) {
-      res.status(401).send('Get User Failed');
+      return res.json({ res: 'Usuário Deletado' });
+    } catch (error) {
+      return res.status(401).json(`Get User Failed: ${error}`);
     }
   }
 
@@ -70,12 +74,12 @@ class UserController {
       const { nome, senha_user } = req.body;
       const { id } = (req as any).authUser;
       if (!id) {
-        return res.status(404).send({ error: 'User not found' });
+        return res.status(404).json({ error: 'User not found' });
       }
       const response = await new UserService().updateUser(id, nome, senha_user);
-      return res.send({ res: response });
-    } catch (err) {
-      res.status(401).send('Get User Failed');
+      return res.json({ res: response });
+    } catch (error) {
+      return res.status(401).json(`Get User Failed: ${error}`);
     }
   }
 }

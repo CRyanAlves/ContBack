@@ -16,7 +16,7 @@ export default class SosConfigController {
       const saveFile = await new SosConfigService().uploadFile(id, file, description);
       return res.status(200).json(saveFile);
     } catch (err) {
-      res.status(401).send('Upload File Failed');
+      res.status(401).json('Upload File Failed' + err);
     }
   }
 
@@ -28,9 +28,9 @@ export default class SosConfigController {
       }
 
       const getSosFiles = await new SosConfigService().findFile(id.id);
-      return res.send({ res: getSosFiles });
+      return res.json({ res: getSosFiles });
     } catch (err) {
-      res.status(401).send('Get User Failed');
+      res.status(401).json('Get User Failed' + err);
     }
   }
 
@@ -45,7 +45,7 @@ export default class SosConfigController {
       const getSosFiles = await new SosConfigService().findFileById(id, id_file);
       return res.json(getSosFiles);
     } catch (err) {
-      res.status(401).send('Get User Failed');
+      res.status(401).json('Get User Failed' + err);
     }
   }
 
@@ -55,13 +55,13 @@ export default class SosConfigController {
       const id_file = req.params.id;
 
       if (!id_file) {
-        return res.status(404).send({ error: 'File not exist' });
+        return res.status(404).json({ error: 'File not exist' });
       }
 
       const resDelete = await new SosConfigService().deleteFile(id, id_file);
       return res.json(resDelete);
     } catch (err) {
-      res.status(401).send('Get User Failed');
+      res.status(401).json('Get User Failed' + err);
     }
   }
 }

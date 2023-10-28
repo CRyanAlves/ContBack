@@ -16,17 +16,16 @@ export default class SosConfigService {
 
   async uploadFile(id: string, file: any, description: string) {
     try {
-      const uploadFile = new SosConfig()
-      uploadFile.id = v4()
+      const uploadFile = new SosConfig();
+      uploadFile.id = v4();
       uploadFile.user = new User();
       uploadFile.user.id = id;
-      uploadFile.user_url = file.path
-      uploadFile.description = description
+      uploadFile.user_url = file.path;
+      uploadFile.description = description;
       const saveFile = await sosRepository.save(uploadFile);
-      return saveFile
+      return saveFile;
     } catch (err) {
-      console.log(`Upload error: ${err}`);
-      return 'Upload Failed';
+      throw new Error(`Upload error: ${err}`);
     }
   }
 
@@ -39,9 +38,9 @@ export default class SosConfigService {
     const getFileById = await sosRepository.findOneBy({ id: id_file });
 
     if (id_user != getFileById?.user.id) {
-      return 'User not accessible this File';
+      throw new Error('User not accessible this File');
     } else {
-      return getFileById
+      return getFileById;
     }
   }
 
@@ -49,7 +48,7 @@ export default class SosConfigService {
     const getFileById = await sosRepository.findOneBy({ id: id_file });
 
     if (id_user != getFileById?.user.id) {
-      return 'User not accessible this File';
+      throw new Error('User not accessible this File');
     } else {
       await sosRepository.delete({ id: id_file });
 
