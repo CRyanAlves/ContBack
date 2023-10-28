@@ -59,7 +59,7 @@ export default class BriefService {
         throw new Error('Brief not found');
       }
     }
-    return 'User is not ADM';
+    throw new Error('User is not ADM');
   }
 
   async deleteBriefByAdm(id_brief: string, id_user: string) {
