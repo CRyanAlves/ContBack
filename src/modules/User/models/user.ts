@@ -12,16 +12,10 @@ export default class User {
   @Column({ name: 'name' })
   name: string;
 
-  @Column({ name: 'password' })
+  @Column({ name: 'password', select: false })
   password: string;
 
-  @Column({ name: 'tel_user', type: 'varchar', length: 11 })
-  telUser: number;
-
-  @Column({ name: 'tel_emg_user', type: 'varchar', length: 11 })
-  telEmgUser: number;
-
-  @Column({name: 'isAdmin', default: false})
+  @Column({ name: 'isAdmin', default: false })
   isAdmin: boolean;
 
   @CreateDateColumn({
@@ -37,5 +31,3 @@ export default class User {
   })
   public updated_at: Date;
 }
-
-// CSV

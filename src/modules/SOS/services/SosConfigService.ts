@@ -4,27 +4,28 @@ import sosRepository from '../models/sos.repository';
 import User from '@modules/User/models/user';
 
 export default class SosConfigService {
-  getSosConfigFromData(UserUrl: string, id_user: string): SosConfig {
+  getSosConfigFromData(UserUrl: string, id_user: string, description: string): SosConfig {
     const newUserUrl = new SosConfig();
     newUserUrl.id = v4();
     newUserUrl.user_url = UserUrl;
+    newUserUrl.description = description;
     newUserUrl.user = new User();
     newUserUrl.user.id = id_user;
     return newUserUrl;
   }
 
-  async uploadFile(id: string, file: any) {
+  async uploadFile(id: string, file: any, description: string) {
     try {
-      const uploadFile = new SosConfig()
-      uploadFile.id = v4()
+      const uploadFile = new SosConfig();
+      uploadFile.id = v4();
       uploadFile.user = new User();
       uploadFile.user.id = id;
-      uploadFile.user_url = file.path
+      uploadFile.user_url = file.path;
+      uploadFile.description = description;
       const saveFile = await sosRepository.save(uploadFile);
-      return saveFile
+      return saveFile;
     } catch (err) {
-      console.log(`Upload error: ${err}`);
-      return 'Upload Failed';
+      throw new Error(`Upload error: ${err}`);
     }
   }
 
@@ -37,9 +38,9 @@ export default class SosConfigService {
     const getFileById = await sosRepository.findOneBy({ id: id_file });
 
     if (id_user != getFileById?.user.id) {
-      return 'User not accessible this File';
+      throw new Error('User not accessible this File');
     } else {
-      return getFileById
+      return getFileById;
     }
   }
 
@@ -47,7 +48,7 @@ export default class SosConfigService {
     const getFileById = await sosRepository.findOneBy({ id: id_file });
 
     if (id_user != getFileById?.user.id) {
-      return 'User not accessible this File';
+      throw new Error('User not accessible this File');
     } else {
       await sosRepository.delete({ id: id_file });
 

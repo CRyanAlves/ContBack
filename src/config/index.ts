@@ -6,6 +6,7 @@ import userRouter from '@modules/User/routes/user.router';
 import authRouter from '@modules/User/routes/auth.router';
 import diaryRouter from '@modules/Diary/routes/diary.router';
 import sosRouter from '@modules/SOS/routes/sosUpload.router';
+import briefRouter from '@modules/Brief/routes/brief.router';
 
 const app = express();
 app.use(cors());
@@ -16,6 +17,8 @@ app.use(morgan('combined'));
 app.use('/users', validator);
 app.use('/diary', validator);
 app.use('/sos', validator);
+app.use('/brief', validator);
+app.use('/brief', briefRouter)
 app.use('/sos', sosRouter)
 app.use('/users', userRouter);
 app.use('/diary', diaryRouter)

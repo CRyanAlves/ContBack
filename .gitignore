@@ -7,7 +7,7 @@ temp/
 coverage
 ormconfig.json
 dist
-src/config/pictures
+src/config/pictures/*
 
 uploads/*
 !uploads/.gitkeep

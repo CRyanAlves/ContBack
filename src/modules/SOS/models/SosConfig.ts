@@ -1,5 +1,5 @@
 import User from '@modules/User/models/user';
-import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryColumn } from 'typeorm';
+import { Column, CreateDateColumn, Entity, ManyToOne, PrimaryColumn } from 'typeorm';
 
 @Entity({ name: 'sos_config' })
 export default class SosConfig {
@@ -8,6 +8,9 @@ export default class SosConfig {
 
   @Column({ name: 'user_url' })
   user_url: string;
+
+  @Column({name: 'description' })
+  description: string;
 
   @ManyToOne(() => User, { nullable: false, eager: true })
   user: User;
