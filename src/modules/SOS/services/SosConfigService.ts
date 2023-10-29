@@ -2,6 +2,8 @@ import { v4 } from 'uuid';
 import SosConfig from '../models/SosConfig';
 import sosRepository from '../models/sos.repository';
 import User from '@modules/User/models/user';
+import * as fs from 'fs';
+import * as path from 'path';
 
 export default class SosConfigService {
   getSosConfigFromData(UserUrl: string, id_user: string, description: string): SosConfig {
@@ -48,11 +50,22 @@ export default class SosConfigService {
     const getFileById = await sosRepository.findOneBy({ id: id_file });
 
     if (id_user != getFileById?.user.id) {
-      throw new Error('User not accessible this File');
-    } else {
-      await sosRepository.delete({ id: id_file });
-
-      return 'File deleted';
+      throw new Error('User does not have access to this file');
     }
+
+    const filePath = path.resolve(__dirname, getFileById.user_url);
+    if (fs.existsSync(filePath)) {
+      try {
+        fs.unlinkSync(filePath);
+      } catch (error) {
+        throw new Error(`Error deleting the file: ${error}`);
+      }
+    } else {
+      throw new Error(`File not found at path: ${filePath}`);
+    }
+
+    await sosRepository.delete({ id: id_file });
+
+    return 'File deleted';
   }
 }
