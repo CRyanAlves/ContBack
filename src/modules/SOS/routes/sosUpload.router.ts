@@ -12,4 +12,6 @@ sosRouter.get('/findFileById/:id', new SosConfigController().findFilesById)
 
 sosRouter.delete('/deleteFile/:id', new SosConfigController().deleteFile)
 
+// sosRouter.put('/updateFile/:id', new SosConfigController().updateFile)
+
 export default sosRouter;

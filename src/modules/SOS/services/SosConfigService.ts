@@ -38,7 +38,8 @@ export default class SosConfigService {
 
   async findFileById(id_user: string, id_file: string) {
     const getFileById = await sosRepository.findOneBy({ id: id_file });
-
+    console.log(getFileById?.user.id);
+    console.log(id_user);
     if (id_user != getFileById?.user.id) {
       throw new Error('User not accessible this File');
     } else {
@@ -68,4 +69,37 @@ export default class SosConfigService {
 
     return 'File deleted';
   }
+
+  // async updateFile(id_user: string, id_file: string, file: any, description: string | null) {
+  //   const fileToUpdate = await sosRepository.findOneBy({ id: id_file });
+
+  //   if (id_user !== fileToUpdate?.user.id) {
+  //     throw new Error('User does not have access to update this file');
+  //   }
+
+  //   const updateFile = new SosConfig();
+
+  //   if (fileToUpdate) {
+  //     updateFile.description = description !== null ? description : fileToUpdate?.description;
+
+  //     if (!!file) {
+  //       const filePath = path.resolve(__dirname, fileToUpdate.user_url);
+  //       if (fs.existsSync(filePath)) {
+  //         try {
+  //           fs.unlinkSync(filePath);
+  //         } catch (error) {
+  //           throw new Error(`Error deleting the file: ${error}`);
+  //         }
+  //       } else {
+  //         throw new Error(`File not found at path: ${filePath}`);
+  //       }
+  //       updateFile.user_url = file.path;
+  //     } else {
+  //       fileToUpdate?.user_url;
+  //     }
+  //   }
+  //   await sosRepository.update(fileToUpdate, updateFile);
+
+  //   return 'File Updated';
+  // }
 }
