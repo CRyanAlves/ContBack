@@ -12,8 +12,8 @@ export default class SosConfigController {
       if (!file) {
         return res.json({ error: 'File not found' });
       }
-      const { description } = req.body;
-      const saveFile = await new SosConfigService().uploadFile(id, file, description);
+      const { description, title } = req.body;
+      const saveFile = await new SosConfigService().uploadFile(id, file, description, title);
       return res.status(200).json(saveFile);
     } catch (err) {
       res.status(401).json('Upload File Failed' + err);
@@ -73,7 +73,7 @@ export default class SosConfigController {
       if (!id_file) {
         return res.status(404).json({ error: 'File not exist' });
       }
-     
+
       const { description } = req.body;
       const file = req.file;
 

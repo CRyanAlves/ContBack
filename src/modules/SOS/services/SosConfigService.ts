@@ -6,17 +6,18 @@ import * as fs from 'fs';
 import * as path from 'path';
 
 export default class SosConfigService {
-  getSosConfigFromData(UserUrl: string, id_user: string, description: string): SosConfig {
+  getSosConfigFromData(UserUrl: string, id_user: string, description: string, title: string): SosConfig {
     const newUserUrl = new SosConfig();
     newUserUrl.id = v4();
     newUserUrl.user_url = UserUrl;
     newUserUrl.description = description;
+    newUserUrl.title = title;
     newUserUrl.user = new User();
     newUserUrl.user.id = id_user;
     return newUserUrl;
   }
 
-  async uploadFile(id: string, file: any, description: string) {
+  async uploadFile(id: string, file: any, description: string, title: string) {
     try {
       console.log(file);
       const uploadFile = new SosConfig();
@@ -25,6 +26,7 @@ export default class SosConfigService {
       uploadFile.user.id = id;
       uploadFile.user_url = file.filename;
       uploadFile.description = description;
+      uploadFile.title = title;
       const saveFile = await sosRepository.save(uploadFile);
       return saveFile;
     } catch (err) {
@@ -107,6 +109,6 @@ export default class SosConfigService {
         throw new Error(`File not found at path: ${filePath}`);
       }
     }
-    return 'failed';
+    return 'Update Failed';
   }
 }

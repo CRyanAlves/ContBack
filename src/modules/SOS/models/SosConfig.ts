@@ -12,6 +12,9 @@ export default class SosConfig {
   @Column({name: 'description' })
   description: string;
 
+  @Column({name: 'title' })
+  title: string;
+
   @ManyToOne(() => User, { nullable: false, eager: true })
   user: User;
 
