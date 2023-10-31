@@ -12,7 +12,7 @@ import * as path from 'path';
 const app = express();
 app.use(cors());
 app.use(express.json());
-app.use(express.static(path.join(__dirname, 'pictures')));
+app.use('/images', express.static(path.join(__dirname, 'pictures')));
 
 app.use(morgan('combined'));
 
@@ -20,10 +20,10 @@ app.use('/users', validator);
 app.use('/diary', validator);
 app.use('/sos', validator);
 app.use('/brief', validator);
-app.use('/brief', briefRouter)
-app.use('/sos', sosRouter)
+app.use('/brief', briefRouter);
+app.use('/sos', sosRouter);
 app.use('/users', userRouter);
-app.use('/diary', diaryRouter)
+app.use('/diary', diaryRouter);
 app.use('/auth', authRouter);
 
 export default app;
