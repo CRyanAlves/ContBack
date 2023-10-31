@@ -60,7 +60,7 @@ export default class SosConfigService {
     }
 
     const fileName = getFileById.user_url;
-    const directoryPath = path.join(__dirname, '..', '..', '..', 'config', 'pictures');
+    const directoryPath = path.join(__dirname, '../../../config', 'pictures');
     const filePath = path.join(directoryPath, fileName);
 
     if (fs.existsSync(filePath)) {
@@ -90,7 +90,7 @@ export default class SosConfigService {
     }
 
     const fileName = fileToUpdate.user_url;
-    const directoryPath = path.join(__dirname, '..', '..', '..', 'config', 'pictures');
+    const directoryPath = path.join(__dirname, '../../../config', 'pictures');
     const filePath = path.join(directoryPath, fileName);
     if (fs.existsSync(filePath)) {
       if (file || description !== undefined) {
