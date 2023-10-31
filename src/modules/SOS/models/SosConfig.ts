@@ -9,7 +9,7 @@ export default class SosConfig {
   @Column({ name: 'user_url' })
   user_url: string;
 
-  @Column({name: 'description' })
+  @Column({name: 'description', type: 'text' })
   description: string;
 
   @Column({name: 'title' })

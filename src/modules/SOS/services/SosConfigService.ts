@@ -6,7 +6,12 @@ import * as fs from 'fs';
 import * as path from 'path';
 
 export default class SosConfigService {
-  getSosConfigFromData(UserUrl: string, id_user: string, description: string, title: string): SosConfig {
+  getSosConfigFromData(
+    UserUrl: string,
+    id_user: string,
+    description: string,
+    title: string,
+  ): SosConfig {
     const newUserUrl = new SosConfig();
     newUserUrl.id = v4();
     newUserUrl.user_url = UserUrl;
@@ -19,7 +24,6 @@ export default class SosConfigService {
 
   async uploadFile(id: string, file: any, description: string, title: string) {
     try {
-      console.log(file);
       const uploadFile = new SosConfig();
       uploadFile.id = v4();
       uploadFile.user = new User();
@@ -55,7 +59,10 @@ export default class SosConfigService {
       throw new Error('User does not have access to this file');
     }
 
-    const filePath = path.resolve(__dirname, getFileById.user_url);
+    const fileName = getFileById.user_url;
+    const directoryPath = path.join(__dirname, '..', '..', '..', 'config', 'pictures');
+    const filePath = path.join(directoryPath, fileName);
+
     if (fs.existsSync(filePath)) {
       try {
         fs.unlinkSync(filePath);
@@ -73,42 +80,44 @@ export default class SosConfigService {
 
   async updateFile(id_user: string, id_file: string, file: any, description: string) {
     const fileToUpdate = await sosRepository.findOneBy({ id: id_file });
-    if (id_user !== fileToUpdate?.user.id) {
+
+    if (!fileToUpdate) {
+      throw new Error('File not found');
+    }
+
+    if (id_user !== fileToUpdate.user.id) {
       throw new Error('User does not have access to update this file');
     }
 
-    if (!!file || description !== undefined) {
-      const filePath = path.resolve(__dirname, fileToUpdate.user_url);
-      if (fs.existsSync(filePath)) {
-        if (!!file) {
-          const updateFile = new SosConfig();
-          updateFile.user_url = file.path;
-          if (description !== undefined) {
-            updateFile.description = description;
-          } else {
-            updateFile.description = fileToUpdate.description;
-          }
-          updateFile.id = id_file;
+    const fileName = fileToUpdate.user_url;
+    const directoryPath = path.join(__dirname, '..', '..', '..', 'config', 'pictures');
+    const filePath = path.join(directoryPath, fileName);
+    if (fs.existsSync(filePath)) {
+      if (file || description !== undefined) {
+        if (file) {
+          fileToUpdate.user_url = file.filename;
+        }
 
-          await sosRepository.save(updateFile);
+        if (description !== undefined) {
+          fileToUpdate.description = description;
+        }
 
-          try {
-            return fs.unlinkSync(filePath);
-          } catch (error) {
-            throw new Error(`Error deleting the file: ${error}`);
-          }
-        } else {
-          if (description !== undefined) {
-            fileToUpdate.description = description;
-            return await sosRepository.save(fileToUpdate);
+        await sosRepository.save(fileToUpdate);
+
+        try {
+          if (file) {
+            fs.unlinkSync(filePath);
           }
 
-          return;
+          return 'File updated successfully';
+        } catch (error) {
+          throw new Error(`Error updating the file: ${error}`);
         }
       } else {
-        throw new Error(`File not found at path: ${filePath}`);
+        return 'No changes to update';
       }
+    } else {
+      throw new Error(`File not found at path: ${filePath}`);
     }
-    return 'Update Failed';
   }
 }

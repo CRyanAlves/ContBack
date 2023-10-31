@@ -21,7 +21,7 @@ export default class Diary {
   @Column({ name: 'title', type: 'varchar', length: '50' })
   title: string;
 
-  @Column({ name: 'description', type: 'varchar', length: '255' })
+  @Column({ name: 'description', type: 'text' })
   description: string;
 
   @Column({ name: 'question1', type: 'varchar', length: '255' })

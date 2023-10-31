@@ -44,8 +44,10 @@ export default class DiaryService {
         question3,
       );
       await diaryRepository.save(newUser);
+    } else {
+      throw new Error('User Not Found');
     }
-    throw new Error('User Not Found');
+    
   }
 
   async getDiary() {
