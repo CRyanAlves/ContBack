@@ -71,9 +71,6 @@ export default class SosConfigService {
 
   async updateFile(id_user: string, id_file: string, file: any, description: string) {
     const fileToUpdate = await sosRepository.findOneBy({ id: id_file });
-    console.log(fileToUpdate);
-    console.log(description);
-    console.log(file);
     if (id_user !== fileToUpdate?.user.id) {
       throw new Error('User does not have access to update this file');
     }
