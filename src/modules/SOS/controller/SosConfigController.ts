@@ -74,10 +74,10 @@ export default class SosConfigController {
         return res.status(404).json({ error: 'File not exist' });
       }
 
-      const { description } = req.body;
+      const { description, title } = req.body;
       const file = req.file;
 
-      const resDelete = await new SosConfigService().updateFile(id, id_file, file, description);
+      const resDelete = await new SosConfigService().updateFile(id, id_file, file, description, title);
       return res.json(resDelete);
     } catch (err) {
       res.status(401).json('Get User Failed' + err);

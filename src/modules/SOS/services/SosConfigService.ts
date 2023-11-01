@@ -78,7 +78,13 @@ export default class SosConfigService {
     return 'File deleted';
   }
 
-  async updateFile(id_user: string, id_file: string, file: any, description: string) {
+  async updateFile(
+    id_user: string,
+    id_file: string,
+    file: any,
+    description: string,
+    title: string,
+  ) {
     const fileToUpdate = await sosRepository.findOneBy({ id: id_file });
 
     if (!fileToUpdate) {
@@ -93,13 +99,17 @@ export default class SosConfigService {
     const directoryPath = path.join(__dirname, '../../../config', 'pictures');
     const filePath = path.join(directoryPath, fileName);
     if (fs.existsSync(filePath)) {
-      if (file || description !== undefined) {
+      if (file || description || title !== undefined) {
         if (file) {
           fileToUpdate.user_url = file.filename;
         }
 
         if (description !== undefined) {
           fileToUpdate.description = description;
+        }
+
+        if (title !== undefined) {
+          fileToUpdate.title = title;
         }
 
         await sosRepository.save(fileToUpdate);
