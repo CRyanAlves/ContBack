@@ -38,7 +38,7 @@ class UserService {
       const jwtToken = jwt.sign(
         { email: foundUser?.email, id: foundUser?.id},
         SECRET,
-        // { expiresIn: 300 },
+        // { expiresIn: 5 * 60 * 60},
       );
       return jwtToken;
     }

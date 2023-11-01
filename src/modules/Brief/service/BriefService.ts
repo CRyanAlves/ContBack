@@ -25,8 +25,21 @@ export default class BriefService {
 
   async listByTrueBrief() {
     const getUserFromBrief = await briefRepository.find({ where: { status: true } });
+
     if (getUserFromBrief.length > 0) {
-      return getUserFromBrief;
+      const transformedResults = getUserFromBrief.map(result => ({
+        id: result.id,
+        description: result.description,
+        status: result.status,
+        created_at: result.created_at,
+        updated_at: result.updated_at,
+        user: {
+          id: result.user.id,
+          name: result.user.name.charAt(0),
+        },
+      }));
+
+      return transformedResults;
     }
     throw new Error('Brief not found');
   }
@@ -36,7 +49,18 @@ export default class BriefService {
     if (getAdm?.isAdmin === true) {
       const getUserFromBrief = await briefRepository.find({ where: { status: false } });
       if (getUserFromBrief.length > 0) {
-        return getUserFromBrief;
+        const transformedResults = getUserFromBrief.map(result => ({
+          id: result.id,
+          description: result.description,
+          status: result.status,
+          created_at: result.created_at,
+          updated_at: result.updated_at,
+          user: {
+            id: result.user.id,
+            name: result.user.name.charAt(0),
+          },
+        }));
+        return transformedResults;
       }
       throw new Error('No brief to approve');
     }
