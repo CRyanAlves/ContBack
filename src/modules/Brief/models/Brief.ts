@@ -14,7 +14,7 @@ export default class Brief {
   @PrimaryColumn()
   id: string;
 
-  @Column()
+  @Column({type: "text"})
   description: string;
 
   @Column({default: false})

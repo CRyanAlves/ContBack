@@ -37,7 +37,7 @@ class UserController {
         return res.status(404).json({ error: 'User not found' });
       }
       const saveUser = await new UserService().getByUser(id.id);
-      return res.json({ res: saveUser });
+      return res.json({ saveUser });
     } catch (error) {
       return res.status(401).json(`Get User Failed: ${error}`);
     }
