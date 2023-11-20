@@ -41,7 +41,7 @@ export default class BriefService {
 
       return transformedResults;
     }
-    throw new Error('Brief not found');
+    return getUserFromBrief;
   }
 
   async listByFalseBrief(id_user: string) {
@@ -62,7 +62,7 @@ export default class BriefService {
         }));
         return transformedResults;
       }
-      throw new Error('No brief to approve');
+      return getUserFromBrief;
     }
     throw new Error('User is not ADM');
   }
