@@ -30,6 +30,17 @@ class UserController {
     }
   }
 
+   async loginGoogle(req: Request, res: Response){
+    try{
+      const authenticated = await new UserService().loginGoogle(req,res)
+      return res.status(200).send({response: authenticated})
+
+    }catch(err){
+      res.status(500).send(err)
+      console.log(`ocorreu  um erro no controllers de singUp ${err}`)
+    }
+  }
+
   async getByUser(req: Request, res: Response) {
     try {
       const id = (req as any).authUser;

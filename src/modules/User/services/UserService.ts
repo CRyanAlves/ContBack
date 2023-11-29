@@ -9,6 +9,7 @@ import userRepository from '../models/user.repository';
 import User from '../models/user';
 import logger from '@config/logger';
 import { SECRET } from '@shared/constants';
+import { OAuth2Client } from 'google-auth-library';
 
 class UserService {
   getUserFromData(email: string, name: string, password: string): User {
@@ -45,6 +46,46 @@ class UserService {
     throw new Error('User not found');
   }
 
+  async loginGoogle(req:any, res:any){
+    try{
+      const client = new OAuth2Client();
+      const ticket = await client.verifyIdToken({
+        idToken: req.body.token,
+ 
+    });
+    const payload = ticket.getPayload();
+    const googleId = payload?.sub;
+    const email = payload?.email;
+    // const password = req.body.password;
+
+    if(!email) {
+      res.status(401).send();
+      return;
+  }
+  const foundUser = await userRepository.findOneBy({ email });
+  if (foundUser) {
+    //foundUser.auth = req.body.fcmToken;
+    foundUser.googleId = googleId || '';
+    await userRepository.save(foundUser);
+     }
+      
+      if(foundUser){
+        const token = jwt.sign({email:foundUser.email,password:foundUser.password,id:foundUser.id},'pao')
+        const user = {
+          token:token,
+        }
+        console.log(user)
+        return user
+      }
+      else{
+        return {erro:"Conta inexistente"}
+      }
+        
+}catch(error){
+    console.log(error)
+    return {error:"Não foi possivel logar "}
+   }}
+  
   async signUpUser(email: string, name: string, password: string) {
     const existEmail = await userRepository.findOne({ where: { email } });
     if (!!existEmail) {
