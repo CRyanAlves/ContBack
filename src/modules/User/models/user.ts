@@ -15,7 +15,7 @@ export default class User {
   @Column({ name: 'password', select: false })
   password: string;
 
-  @Column({ name: 'googleId', select: false })
+  @Column({ name: 'googleId' })
   googleId: string;
 
   @Column({ name: 'isAdmin', default: false })

@@ -50,8 +50,7 @@ class UserService {
     try{
       const client = new OAuth2Client();
       const ticket = await client.verifyIdToken({
-        idToken: req.body.token,
- 
+        idToken: req.body.token
     });
     const payload = ticket.getPayload();
     const googleId = payload?.sub;
